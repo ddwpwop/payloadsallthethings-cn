@@ -59,11 +59,11 @@ CaA收集功能主要应用于HTTP请求和响应。收集的数据信息主要�
 
 CaA所收集到的数据可以在响应包的Tab标签页`CollectInfo`，便于查看当前请求及当前网站收集到的数据信息。
 
-[![collectinfo.png](C:\Users\52915\Desktop\PayloadsAllTheThings-cn\payloads-all-the-things-tran\异常参数FUZZ\static\collectinfo.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/collectinfo.png)
+[![collectinfo.png](static\collectinfo.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/collectinfo.png)
 
 同时你也可以在CaA独立界面中的`Databoard`进行数据的查询，可以查询所有数据以及单个Host的数据。
 
-[![databoard](C:\Users\52915\Desktop\PayloadsAllTheThings-cn\payloads-all-the-things-tran\异常参数FUZZ\static\databoard.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/databoard.png)
+[![databoard](static\databoard.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/databoard.png)
 
 #### Analyzer
 
@@ -71,17 +71,17 @@ CaA分析功能主要为Web Fuzzing形态，可以对参数、参数值、请求
 
 我们可以在`CollectInfo`或`Databoard`界面中选择数据，并右键单击`Send to Fuzzer`即可开始配置。
 
-[![send_to_fuzzer](C:\Users\52915\Desktop\PayloadsAllTheThings-cn\payloads-all-the-things-tran\异常参数FUZZ\static\send_to_fuzzer.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/fuzzer/send_to_fuzzer.png)
+[![send_to_fuzzer](static\send_to_fuzzer.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/fuzzer/send_to_fuzzer.png)
 
 如果你是基于`CollectInfo`到配置页面的，就不需要配置请求信息，如果不是则需要。接着你可以在添加、修改、删除、去重Payload，以及选择Fuzzer工作的模式：参数、路径、文件、参数值。当一切配置完成之后单击`Confirm`按钮，输入任务名称即可开始Fuzzing工作。
 
 [![fuzzer_config](https://github.com/gh0stkey/CaA/raw/master/images/panel/fuzzer/fuzzer_config.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/fuzzer/fuzzer_config.png)
 
-[![input_task_name](C:\Users\52915\Desktop\PayloadsAllTheThings-cn\payloads-all-the-things-tran\异常参数FUZZ\static\input_task_name.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/fuzzer/input_task_name.png)
+[![input_task_name](static\input_task_name.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/fuzzer/input_task_name.png)
 
 当你想要查看Fuzzer任务信息，可以在CaA独立界面中的`Databoard`进行查询。输入你创建的任务名称，就会有对应的下拉选择框，选择对应的信息，回车即可查询。
 
-[![taskboard](C:\Users\52915\Desktop\PayloadsAllTheThings-cn\payloads-all-the-things-tran\异常参数FUZZ\static\taskboard.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/taskboard.png)
+[![taskboard](static\taskboard.png)](https://github.com/gh0stkey/CaA/blob/master/images/panel/taskboard.png)
 
 
 
